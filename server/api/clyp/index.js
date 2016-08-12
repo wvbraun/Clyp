@@ -1,5 +1,6 @@
 "use strict";
 
+import jwt from "express-jwt";
 import fetch from "node-fetch";
 import path from 'path';
 import mime from 'mime';
@@ -12,6 +13,13 @@ import fs from "fs";
 import mkdirp from "mkdirp";
 
 // this could also be in a ../routes dir, and perhaps it should be..
+
+/*
+const authCheck = jwt({
+  secret: new Buffer("DebkoDB6ekEkd46oBQquWtPfa75RPmnASl2JnNp3Og_9m4yoTHibU7wNH3sIUcf_", "base64"),
+  audience: "VyjR69cmKwBwU7GOP6bYI2szWgCS1qB2"
+});
+*/
 
 const router = express.Router();
 const agent = new HttpsProxyAgent("http://naproxy.gm.com:80");
@@ -51,7 +59,7 @@ const removeFile = (file) => {
 
 mkdirp.sync(uploadPath);
 
-const access_token = "Bearer sVe4GUP7vqOuRxWLkStCcFcPEY9y42nmnGwXnSGL9h7wN4bMq5ORLW2UDy2sayMLVIBBvmt5sg7JDuEbYAivgVttrlyvO8T2s_2UmduKL6YC_o6i9P2hvYOY_XcHmsM2BAXRbnzI153241eITHBk1F3UPvbo-n2LDgRRSK_spE7HZTvMmhi9uw---uNjabuzQvtrFdVoFTnBlFUyXKi1UnIt0aJObUo_V0gVxQYoLS5S8jo6A3hJZOuSmlFXTEg9XcPbNusJgTBVyD5YbyqOTh2NxbURUrgz_8YKYU6iYHI_YPnpvDOuqN7OW9BjGZhwGt_eadLLWqT7zPmGHWX5OjMhLH1wmTAiEu4mNpU0Qm0";
+//const access_token = "Bearer sVe4GUP7vqOuRxWLkStCcFcPEY9y42nmnGwXnSGL9h7wN4bMq5ORLW2UDy2sayMLVIBBvmt5sg7JDuEbYAivgVttrlyvO8T2s_2UmduKL6YC_o6i9P2hvYOY_XcHmsM2BAXRbnzI153241eITHBk1F3UPvbo-n2LDgRRSK_spE7HZTvMmhi9uw---uNjabuzQvtrFdVoFTnBlFUyXKi1UnIt0aJObUo_V0gVxQYoLS5S8jo6A3hJZOuSmlFXTEg9XcPbNusJgTBVyD5YbyqOTh2NxbURUrgz_8YKYU6iYHI_YPnpvDOuqN7OW9BjGZhwGt_eadLLWqT7zPmGHWX5OjMhLH1wmTAiEu4mNpU0Qm0";
 
 // LOAD TRACKS
 router.get('/tracks', (req, res, next) => {
@@ -72,9 +80,6 @@ router.post('/upload', upload.single('audioFile'), (req, res, next) => {
   form.append("audioFile", fs.createReadStream(req.file.path));
   const settings = {
     agent: agent,
-    headers: {
-      "Authorization": access_token
-    },
     method: 'POST',
     body: form
   };
@@ -115,6 +120,20 @@ router.delete('/tracks/:id', (req, res, next) => {
 });
 
 
+// LOGIN
+router.post('/', (req, res, next) => {
+  const settings = {
+    method: 'DELETE'
+  };
+
+  fetch('https://api.clyp.it/oauth2/token', settings)
+    .then((response) => {
+      return response.json();
+    })
+    .catch((error) => {
+      throw(error);
+    });
+});
 
 
 

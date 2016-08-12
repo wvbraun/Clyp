@@ -1,5 +1,6 @@
 "use strict";
 
+import jwt from "express-jwt";
 import cors from "cors";
 import open from "open";
 import path from "path";
@@ -20,6 +21,7 @@ const compiler = webpack(webpackConfig);
 
 const port = process.env.PORT || 8000;
 const database = process.env.MONGO_URI || "mongodb://localhost/losub";
+
 
 mongoose.connect(database);
 mongoose.connection.on("error", () => {

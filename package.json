@@ -16,6 +16,7 @@
     "cors": "^2.7.1",
     "es6-promise": "^3.2.1",
     "express": "^4.14.0",
+    "express-jwt": "^3.4.0",
     "fetch-jsonp": "^1.0.0",
     "form-data": "^1.0.0-rc4",
     "fs": "0.0.2",

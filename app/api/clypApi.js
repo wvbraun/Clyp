@@ -44,6 +44,24 @@ class ClypApi {
     });
   }
 
+  static logUserIn() {
+    const form = new FormData();
+    const settings = {
+      method: 'POST',
+      body: form
+    };
+
+    return new Promise((resolve, reject) => {
+      fetch('/api/clyp/oauth2/token', settings)
+        .then((response) => {
+          return response.json();
+        })
+        .catch((error) => {
+          throw(error);
+        });
+    });
+  }
+
   static deleteTrack(track) {
     track = Object.assign({}, track);
     const settings = {

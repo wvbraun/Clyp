@@ -4,6 +4,8 @@ import React, { PropTypes } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import toastr from "toastr";
+import HomeHero from "./HomeHero";
+import HomeTabs from "./HomeTabs";
 import * as clypActions from "../../actions/clypActions";
 
 class HomePage extends React.Component {
@@ -25,8 +27,11 @@ class HomePage extends React.Component {
   }
 
   render() {
+    const { tracks } = this.props;
     return (
       <div className="container-fluid">
+        <HomeHero />
+        <HomeTabs tracks={tracks} />
       </div>
     );
   }

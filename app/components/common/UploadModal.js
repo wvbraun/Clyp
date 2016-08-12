@@ -32,7 +32,7 @@ class UploadModal extends React.Component {
 
   render() {
     return (
-      <div className="nav-action">
+      <div>
         <Button
           type="submit"
           bsStyle={this.props.bsStyle}

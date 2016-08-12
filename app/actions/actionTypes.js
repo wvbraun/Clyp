@@ -8,5 +8,8 @@ export default keyMirror({
     CREATE_TRACK_SUCCESS: null,
     CREATE_TRACK_FAIL: null,
     DELETE_TRACK_SUCCESS: null,
-    DELETE_TRACK_FAIL: null
+    DELETE_TRACK_FAIL: null,
+    LOGIN_USER_SUCCESS: null,
+    LOGIN_USER_FAIL: null,
+    LOGOUT_USER_SUCCESS: null
 });
