@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import toastr from "toastr";
 import Header from "./common/Header";
-import Auth0Lock from "auth0-lock";
+// import Auth0Lock from "auth0-lock";
 import * as clypActions from "../actions/clypActions";
 
 class App extends React.Component {
@@ -14,10 +14,6 @@ class App extends React.Component {
     super(props, context);
 
     this.saveTrack = this.saveTrack.bind(this);
-  }
-
-  componetWillMount() {
-    this.lock = new Auth0Lock("VyjR69cmKwBwU7GOP6bYI2szWgCS1qB2", "sublo.auth0.com");
   }
 
   saveTrack(event) {
@@ -35,7 +31,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header lock={this.lock} onDrop={this.saveTrack} />
+        <Header onDrop={this.saveTrack} />
         {this.props.children}
       </div>
     );

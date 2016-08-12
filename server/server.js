@@ -1,6 +1,6 @@
 "use strict";
 
-import jwt from "express-jwt";
+//import jwt from "express-jwt";
 import cors from "cors";
 import open from "open";
 import path from "path";

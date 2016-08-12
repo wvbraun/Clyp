@@ -15,22 +15,6 @@ class Header extends React.Component {
       authenticated: false
     };
 
-    this.login = this.login.bind(this);
-    this.logout = this.logout.bind(this);
-  }
-
-  login() {
-    this.props.lock.show((err, profile, token) => {
-      if (err) {
-        alert(err);
-        return;
-      }
-      this.setState({ authenticated: true });
-    });
-  }
-
-  logout() {
-    this.setState({ authenticated: false });
   }
 
   render() {
@@ -80,8 +64,7 @@ class Header extends React.Component {
 
 
 Header.propTypes = {
-  onDrop: PropTypes.func.isRequired,
-  lock: PropTypes.object.isRequired
+  onDrop: PropTypes.func.isRequired
 };
 
 

@@ -1,6 +1,6 @@
 "use strict";
 
-import jwt from "express-jwt";
+//import jwt from "express-jwt";
 import fetch from "node-fetch";
 import path from 'path';
 import mime from 'mime';
