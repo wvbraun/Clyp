@@ -49,13 +49,4 @@ export function saveTrack(track) {
         throw(error);
       });
   };
-
-  /*
-  export function deleteTrack(track) {
-    return (dispatch) => {
-      return ClypApi.deleteTrack(track)
-        .then(())
-    }
-  }
-  */
 }

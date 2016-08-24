@@ -1,7 +1,7 @@
 "use strict";
 
 
-import ClypApi from "../api/clypApi";
+import LoginApi from "../api/loginApi";
 import types from "./actionTypes";
 
 export function logUserInSuccess() {
@@ -12,10 +12,11 @@ export function logUserInFail() {
   return { type: types.LOGIN_USER_FAIL };
 }
 
-export function logUserIn() {
+export function loginUser() {
   return (dispatch) => {
-    return ClypApi.logUserIn()
-      .then(() => {
+    return LoginApi.login()
+      .then((jwt) => {
+        debugger;
         dispatch(logUserInSuccess());
       })
       .catch((error) => {

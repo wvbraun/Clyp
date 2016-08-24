@@ -1,5 +1,6 @@
 "use strict";
 
 export default {
-  tracks: []
+  tracks: [],
+  user: []
 };

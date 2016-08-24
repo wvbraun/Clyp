@@ -20,7 +20,7 @@ const app = express();
 const compiler = webpack(webpackConfig);
 
 const port = process.env.PORT || 8000;
-const database = process.env.MONGO_URI || "mongodb://localhost/losub";
+const database = process.env.MONGO_URI || "mongodb://localhost/clyp";
 
 
 mongoose.connect(database);

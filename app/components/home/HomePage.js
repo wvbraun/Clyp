@@ -16,8 +16,7 @@ class HomePage extends React.Component {
   }
 
   saveTrack(event) {
-    const track = event[0];
-    this.props.actions.saveTrack(track)
+    this.props.actions.saveTrack(event[0])
       .then(() => {
         toastr.success("File uploaded successfully!");
       })

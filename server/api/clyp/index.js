@@ -121,9 +121,16 @@ router.delete('/tracks/:id', (req, res, next) => {
 
 
 // LOGIN
-router.post('/', (req, res, next) => {
+router.post('/login', (req, res, next) => {
+  const user = req.body;
+  console.log(user);
   const settings = {
-    method: 'DELETE'
+    method: 'POST',
+    body: {
+      "grant_type": "password",
+      "username": user.username,
+      "password": user.password
+    }
   };
 
   fetch('https://api.clyp.it/oauth2/token', settings)

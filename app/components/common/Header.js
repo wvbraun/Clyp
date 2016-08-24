@@ -2,7 +2,8 @@
 
 import React, { PropTypes } from "react";
 import { Link } from "react-router";
-import LoginModal from "./LoginModal";
+//import LoginModal from "./LoginModal";
+import Login from "./Login";
 import UploadModal from "./UploadModal";
 import FontAwesome from "react-fontawesome";
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
@@ -52,7 +53,7 @@ class Header extends React.Component {
                 />
               </div>
               <div className="nav-action">
-                <LoginModal />
+                <Login />
               </div>
             </div>
           </div>
