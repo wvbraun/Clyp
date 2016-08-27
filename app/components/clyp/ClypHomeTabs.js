@@ -1,10 +1,10 @@
 "use strict";
 
 import React, { PropTypes } from "react";
-import ClypList from "../common/ClypList";
+import ClypList from "./ClypList";
 import { Tabs, Tab, Row, Col, Nav, NavItem } from "react-bootstrap";
 
-const HomeTabs = ({ tracks }) => {
+const ClypTabs = ({ tracks }) => {
   return (
     <div className="tabs-wrapper row">
       <Tabs defaultActiveKey={1} id="tabs">
@@ -22,8 +22,8 @@ const HomeTabs = ({ tracks }) => {
   );
 };
 
-HomeTabs.propTypes = {
+ClypTabs.propTypes = {
   tracks: PropTypes.array.isRequired
 };
 
-export default HomeTabs;
+export default ClypTabs;

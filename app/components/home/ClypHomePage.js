@@ -4,11 +4,12 @@ import React, { PropTypes } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import toastr from "toastr";
-import HomeHero from "./HomeHero";
-import HomeTabs from "./HomeTabs";
+import ClypHero from "./ClypHero";
+import ClypHomeTabs from "./ClypHomeTabs";
+import Header from "../common/Header";
 import * as clypActions from "../../actions/clypActions";
 
-class HomePage extends React.Component {
+class ClypPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -29,14 +30,15 @@ class HomePage extends React.Component {
     const { tracks } = this.props;
     return (
       <div className="container-fluid">
-        <HomeHero />
-        <HomeTabs tracks={tracks} />
+        <Header onDrop={this.saveTrack} />
+        <ClypHero />
+        <ClypHomeTabs tracks={tracks} />
       </div>
     );
   }
 }
 
-HomePage.propTypes = {
+ClypPage.propTypes = {
   tracks: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired
 };
@@ -53,4 +55,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(ClypPage);

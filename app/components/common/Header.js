@@ -7,6 +7,7 @@ import Login from "./Login";
 import UploadModal from "./UploadModal";
 import FontAwesome from "react-fontawesome";
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import * as clypActions from "../../actions/clypActions";
 
 
 class Header extends React.Component {
@@ -15,12 +16,11 @@ class Header extends React.Component {
     this.state = {
       authenticated: false
     };
-
   }
 
   render() {
     return (
-      <div className="fixed-elements">
+      <div className="fixed-elements row">
         <header id="clyp-header">
           <div className="fixed-header">
             <Link to="https://clyp.it" target="_blank" className="clyp-logo-wrapper">
@@ -62,7 +62,6 @@ class Header extends React.Component {
     );
   }
 }
-
 
 Header.propTypes = {
   onDrop: PropTypes.func.isRequired

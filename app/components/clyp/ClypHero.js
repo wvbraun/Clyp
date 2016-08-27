@@ -2,7 +2,7 @@
 
 import React from "react";
 
-const HomeHero = () => {
+const ClypHero = () => {
   return (
     <div className="hero-wrapper row">
       <div className="hero">
@@ -11,4 +11,4 @@ const HomeHero = () => {
   );
 };
 
-export default HomeHero;
+export default ClypHero;
