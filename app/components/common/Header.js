@@ -2,23 +2,27 @@
 
 import React, { PropTypes } from "react";
 import { Link } from "react-router";
-//import LoginModal from "./LoginModal";
 import Login from "./Login";
 import UploadModal from "./UploadModal";
 import FontAwesome from "react-fontawesome";
+import toastr from "toastr";
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
-import * as clypActions from "../../actions/clypActions";
+import { loginUser, logoutUser } from "../../actions/clypActions";
 
 
 class Header extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = {
-      authenticated: false
-    };
+
+    this.onLoginClick = this.onLoginClick.bind(this);
+  }
+
+  onLoginClick(dispatch, creds) {
+    dispatch(loginUser(creds));
   }
 
   render() {
+    const { dispatch, isAuthenticated, errorMessage } = this.props;
     return (
       <div className="fixed-elements row">
         <header id="clyp-header">
@@ -53,7 +57,7 @@ class Header extends React.Component {
                 />
               </div>
               <div className="nav-action">
-                <Login login={this.props.login} />
+                <Login onLoginClick={this.onLoginClick} />
               </div>
             </div>
           </div>
@@ -64,8 +68,9 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  login: PropTypes.func.isRequired,
-  onDrop: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  errorMessage: PropTypes.string
 };
 
 

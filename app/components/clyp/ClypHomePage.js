@@ -4,7 +4,6 @@ import React, { PropTypes } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import toastr from "toastr";
-import Header from "../common/Header";
 import ClypHero from "./ClypHero";
 import ClypHomeTabs from "./ClypHomeTabs";
 import * as clypActions from "../../actions/clypActions";
@@ -38,7 +37,6 @@ class ClypPage extends React.Component {
     const { tracks } = this.props;
     return (
       <div className="container-fluid">
-        <Header onDrop={this.saveTrack} login={this.login} />
         <ClypHero />
         <ClypHomeTabs tracks={tracks} />
       </div>

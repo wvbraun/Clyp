@@ -9,7 +9,10 @@ export default keyMirror({
     CREATE_TRACK_FAIL: null,
     DELETE_TRACK_SUCCESS: null,
     DELETE_TRACK_FAIL: null,
-    LOGIN_USER_SUCCESS: null,
-    LOGIN_USER_FAIL: null,
-    LOGOUT_USER_SUCCESS: null
+    LOGIN_REQUEST: null,
+    LOGIN_SUCCESS: null,
+    LOGIN_FAILURE: null,
+    LOGOUT_REQUEST: null,
+    LOGOUT_SUCCESS: null,
+    LOGOUT_FAILURE: null
 });

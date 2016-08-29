@@ -1,6 +1,9 @@
 "use strict";
 
 import * as $ from "jquery";
+import { connect } from "react-redux";
+import { loginUser } from "../actions/clypActions";
+import Header from "./common/Header";
 import React, { PropTypes } from "react";
 
 class App extends React.Component {
@@ -9,8 +12,14 @@ class App extends React.Component {
   }
 
   render() {
+    const { dispatch, isAuthenticated, errorMessage } = this.props;
     return (
       <div>
+        <Header
+          dispatch={dispatch}
+          isAuthenticated={isAuthenticated}
+          errorMessage={errorMessage}
+        />
         {this.props.children}
       </div>
     );
@@ -18,7 +27,19 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  children: PropTypes.object.isRequired
+  dispatch: PropTypes.func.isRequired,
+  children: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  errorMessage: PropTypes.string
 };
 
-export default App;
+function mapStateToProps(state) {
+  const { auth } = state;
+  const { isAuthenticated, errorMessage } = auth;
+  return {
+    isAuthenticated,
+    errorMessage
+  };
+}
+
+export default connect(mapStateToProps)(App);

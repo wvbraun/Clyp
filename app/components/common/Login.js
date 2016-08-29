@@ -59,7 +59,7 @@ class Login extends React.Component {
             <LoginForm
               user={this.state.user}
               onChange={this.updateUserState}
-              onClick={this.login}
+              onClick={this.onLoginClick}
             />
           </Modal.Body>
         </Modal>
@@ -69,7 +69,7 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  login: PropTypes.func.isRequired
+  onLoginClick: PropTypes.func.isRequired
 };
 
 export default Login;
