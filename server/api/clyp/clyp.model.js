@@ -42,7 +42,7 @@ const schema = mongoose.Schema({
 });
 */
 
-const schema = mongoose.Schema({
+const clypSchema = mongoose.Schema({
   Status: String,
   CommentsEnabled: Boolean,
   Category: String,
@@ -59,10 +59,24 @@ const schema = mongoose.Schema({
   DateCreated: String
 });
 
-/*
-const schema = mongoose.Schema({
-  tracks: [trackSchema]
+const userSchema = mongoose.Schema({
+  email: String,
+  access_token: String,
+  token_type: String,
+  expires_in: Number,
+  refresh_token: String
 });
-*/
 
-export default mongoose.model("Clyp", schema);
+const Clyp = mongoose.model("Clyp", clypSchema);
+const User = mongoose.model("User", userSchema);
+
+
+//const schema = mongoose.Schema({
+//  tracks: [trackSchema]
+//});
+
+//export default mongoose.model("Clyp", schema);
+export default {
+  Clyp: Clyp,
+  User: User
+};

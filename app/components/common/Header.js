@@ -53,7 +53,7 @@ class Header extends React.Component {
                 />
               </div>
               <div className="nav-action">
-                <Login />
+                <Login login={this.props.login} />
               </div>
             </div>
           </div>
@@ -64,6 +64,7 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
+  login: PropTypes.func.isRequired,
   onDrop: PropTypes.func.isRequired
 };
 

@@ -23,6 +23,7 @@ const port = process.env.PORT || 8000;
 const database = process.env.MONGO_URI || "mongodb://localhost/clyp";
 
 
+mongoose.Promise = Promise;
 mongoose.connect(database);
 mongoose.connection.on("error", () => {
     console.info("Error: Could not connect to MongoDB. Did you forget to run `mongod`");
@@ -39,6 +40,9 @@ app.use(wpHotMiddleware(compiler));
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use('/public', express.static(__dirname + '/public'));
 routes(app);
 

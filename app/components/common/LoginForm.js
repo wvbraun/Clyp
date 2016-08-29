@@ -11,7 +11,7 @@ const LoginForm = ({ user, onChange, onClick }) => {
         <Input
           name="email"
           label="Email Address"
-          value={user.username}
+          value={user.email}
           onChange={onChange}
         />
         <Input

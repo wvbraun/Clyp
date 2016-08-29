@@ -14,6 +14,7 @@ class ClypPage extends React.Component {
     super(props, context);
 
     this.saveTrack = this.saveTrack.bind(this);
+    this.login = this.login.bind(this);
   }
 
   saveTrack(event) {
@@ -26,11 +27,18 @@ class ClypPage extends React.Component {
       });
   }
 
+  login(user) {
+    this.props.actions.loginUser(user)
+      .catch((error) => {
+        toastr.error(error);
+      });
+  }
+
   render() {
     const { tracks } = this.props;
     return (
       <div className="container-fluid">
-        <Header onDrop={this.saveTrack} />
+        <Header onDrop={this.saveTrack} login={this.login} />
         <ClypHero />
         <ClypHomeTabs tracks={tracks} />
       </div>

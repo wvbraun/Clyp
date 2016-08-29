@@ -8,14 +8,13 @@ import { Button, Modal } from "react-bootstrap";
 import LoginForm from "./LoginForm";
 import toastr from "toastr";
 import Input from "./TextInput";
-import * as authActions from "../../actions/authActions";
 
 class Login extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       user: {
-        username: "",
+        email: "",
         password: ""
       },
       showModal: false
@@ -26,9 +25,11 @@ class Login extends React.Component {
     this.login = this.login.bind(this);
   }
 
+  /*
   componentWillReceiveProps(nextProps) {
     this.setState({ user: Object.assign({}, nextProps.user )});
   }
+  */
 
   toggleModal() {
     this.setState({ showModal: !this.state.showModal });
@@ -36,24 +37,21 @@ class Login extends React.Component {
 
   login(event) {
     event.preventDefault();
-    debugger;
-    this.props.actions.loginUser(this.state.user)
-      .catch((error) => {
-        toastr.error(error);
-      });
+    this.props.login(this.state.user);
+    this.toggleModal();
   }
 
   updateUserState(event) {
     let user = this.state.user;
     const field = event.target.name;
     user[field] = event.target.value;
-    return this.setState({ user: user });
+    this.setState({ user: user });
   }
 
   render() {
     return (
       <div>
-        <Button onClick={this.openModal}>
+        <Button onClick={this.toggleModal}>
           LOG IN
         </Button>
         <Modal show={this.state.showModal} onHide={this.toggleModal}>
@@ -71,13 +69,7 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  actions: PropTypes.object.isRequired
+  login: PropTypes.func.isRequired
 };
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(authActions, dispatch)
-  };
-}
-
-export default connect(mapDispatchToProps)(Login);
+export default Login;

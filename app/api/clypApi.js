@@ -1,6 +1,7 @@
 "use strict";
 
 import fetch from "isomorphic-fetch";
+import formurlencoded from "form-urlencoded";
 
 const paths = {
   baseUrl: "/api/clyp"
@@ -55,6 +56,34 @@ class ClypApi {
       fetch('/api/clyp/tracks/:id', settings)
         .then((response) => {
           return response.json();
+        })
+        .catch((error) => {
+          throw(error);
+        });
+    });
+  }
+
+  static login(user) {
+    user = Object.assign({}, user);
+    const settings = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: formurlencoded({
+        "grant_type": "password",
+        "username": user.email,
+        "password": user.password
+      })
+    };
+
+    return new Promise((resolve, reject) => {
+      fetch("/api/clyp/login", settings)
+        .then((response) => {
+          return response.json();
+        })
+        .then((json) => {
+          debugger;
         })
         .catch((error) => {
           throw(error);

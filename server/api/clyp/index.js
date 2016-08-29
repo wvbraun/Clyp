@@ -4,13 +4,14 @@
 import fetch from "node-fetch";
 import path from 'path';
 import mime from 'mime';
-import Clyp from "./clyp.model";
+import models from "./clyp.model";
 import express from "express";
 import HttpsProxyAgent from "https-proxy-agent";
 import FormData from "form-data";
 import multer from "multer";
 import fs from "fs";
 import mkdirp from "mkdirp";
+import formurlencoded from "form-urlencoded";
 
 // this could also be in a ../routes dir, and perhaps it should be..
 
@@ -63,15 +64,16 @@ mkdirp.sync(uploadPath);
 
 // LOAD TRACKS
 router.get('/tracks', (req, res, next) => {
-  Clyp.find({}, (err, clyps) => {
-    if (err) {
+  models.Clyp.find({})
+    .then((clyps) => {
+      //if (!clyps) {
+      //  return errorHandler(res, { err: err }, 404);
+      //}
+      return res.status(200).json(clyps);
+    })
+    .catch((err) => {
       return errorHandler(res, { err: err }, 500);
-    }
-    if (!clyps) {
-      return errorHandler(res, { err: err }, 404);
-    }
-    return res.status(200).json(clyps);
-  });
+    });
 });
 
 // UPLOAD TRACK
@@ -79,7 +81,7 @@ router.post('/upload', upload.single('audioFile'), (req, res, next) => {
   const form = new FormData();
   form.append("audioFile", fs.createReadStream(req.file.path));
   const settings = {
-    agent: agent,
+    //agent: agent,
     method: 'POST',
     body: form
   };
@@ -90,13 +92,14 @@ router.post('/upload', upload.single('audioFile'), (req, res, next) => {
       return response.json();
     })
     .then((track) => {
-      const clyp = new Clyp(track);
-      clyp.save((err) => {
-        if (err) {
+      const clyp = new models.Clyp(track);
+      clyp.save()
+        .then(() => {
+          return res.status(200).json(clyp);
+        })
+        .catch((err) => {
           return errorHandler(res, { err: err}, 400);
-        }
-        return res.status(200).json(clyp);
-      });
+        });
     })
     .catch((error) => {
       throw(error);
@@ -122,20 +125,35 @@ router.delete('/tracks/:id', (req, res, next) => {
 
 // LOGIN
 router.post('/login', (req, res, next) => {
-  const user = req.body;
-  console.log(user);
+  let user = req.body;
   const settings = {
     method: 'POST',
-    body: {
-      "grant_type": "password",
-      "username": user.username,
-      "password": user.password
-    }
+    headers: {
+      "Authorization": "Basic MjkzMTE5Og==",
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: formurlencoded(user)
   };
 
   fetch('https://api.clyp.it/oauth2/token', settings)
     .then((response) => {
       return response.json();
+    })
+    .then((savedUser) => {
+      user = {
+        email: user.username,
+        access_token: savedUser.access_token,
+        token_type: savedUser.token_type,
+        expires_in: savedUser.expires_in,
+        refresh_token: savedUser.refresh_token
+      };
+      models.User.update({ email: user.email }, user, { upsert: true })
+        .then(() => {
+          return res.status(200).json(user);
+        })
+        .catch((err) => {
+          return errorHandler(res, { err: err}, 400);
+        });
     })
     .catch((error) => {
       throw(error);

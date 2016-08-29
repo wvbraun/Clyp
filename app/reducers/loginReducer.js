@@ -9,6 +9,7 @@ export default function loginReducer(state = initialState.user, action) {
     case types.LOGIN_USER_SUCCESS:
       return jwtDecode(action.jwt);
 
+
     default:
       return state;
   }
