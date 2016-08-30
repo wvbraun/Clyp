@@ -2,7 +2,6 @@
 
 import * as $ from "jquery";
 import { connect } from "react-redux";
-import { loginUser } from "../actions/clypActions";
 import Header from "./common/Header";
 import React, { PropTypes } from "react";
 

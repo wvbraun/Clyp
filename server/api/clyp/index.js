@@ -60,15 +60,10 @@ const removeFile = (file) => {
 
 mkdirp.sync(uploadPath);
 
-//const access_token = "Bearer sVe4GUP7vqOuRxWLkStCcFcPEY9y42nmnGwXnSGL9h7wN4bMq5ORLW2UDy2sayMLVIBBvmt5sg7JDuEbYAivgVttrlyvO8T2s_2UmduKL6YC_o6i9P2hvYOY_XcHmsM2BAXRbnzI153241eITHBk1F3UPvbo-n2LDgRRSK_spE7HZTvMmhi9uw---uNjabuzQvtrFdVoFTnBlFUyXKi1UnIt0aJObUo_V0gVxQYoLS5S8jo6A3hJZOuSmlFXTEg9XcPbNusJgTBVyD5YbyqOTh2NxbURUrgz_8YKYU6iYHI_YPnpvDOuqN7OW9BjGZhwGt_eadLLWqT7zPmGHWX5OjMhLH1wmTAiEu4mNpU0Qm0";
-
 // LOAD TRACKS
 router.get('/tracks', (req, res, next) => {
   models.Clyp.find({})
     .then((clyps) => {
-      //if (!clyps) {
-      //  return errorHandler(res, { err: err }, 404);
-      //}
       return res.status(200).json(clyps);
     })
     .catch((err) => {
@@ -123,6 +118,7 @@ router.delete('/tracks/:id', (req, res, next) => {
 });
 
 
+
 // LOGIN
 router.post('/login', (req, res, next) => {
   let user = req.body;
@@ -135,7 +131,26 @@ router.post('/login', (req, res, next) => {
     body: formurlencoded(user)
   };
 
-  fetch('https://api.clyp.it/oauth2/token', settings)
+  const fetchLogin = () => {
+    return new Promise((resolve, reject) => {
+      fetch('https://api.clyp.it/oauth2/token', settings)
+        .then((response) => {
+          if (response.ok) {
+            resolve(response);
+          }
+          return response.json();
+        })
+        .then((err) => {
+          reject(err);
+        })
+        .catch((err) => {
+          throw(err);
+        });
+    });
+  };
+
+//  fetch('https://api.clyp.it/oauth2/token', settings)
+  fetchLogin()
     .then((response) => {
       return response.json();
     })
@@ -155,8 +170,8 @@ router.post('/login', (req, res, next) => {
           return errorHandler(res, { err: err}, 400);
         });
     })
-    .catch((error) => {
-      throw(error);
+    .catch((err) => {
+      return errorHandler(res, { err: err }, 400 );
     });
 });
 

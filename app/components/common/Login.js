@@ -1,8 +1,6 @@
 "use strict";
 
 import React, { PropTypes } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { ModalContainer, ModalDialog } from "react-modal-dialog";
 import { Button, Modal } from "react-bootstrap";
 import LoginForm from "./LoginForm";
@@ -22,22 +20,16 @@ class Login extends React.Component {
 
     this.toggleModal = this.toggleModal.bind(this);
     this.updateUserState = this.updateUserState.bind(this);
-    this.login = this.login.bind(this);
+    this.onLoginClick = this.onLoginClick.bind(this);
   }
-
-  /*
-  componentWillReceiveProps(nextProps) {
-    this.setState({ user: Object.assign({}, nextProps.user )});
-  }
-  */
 
   toggleModal() {
     this.setState({ showModal: !this.state.showModal });
   }
 
-  login(event) {
+  onLoginClick(event) {
     event.preventDefault();
-    this.props.login(this.state.user);
+    this.props.onLoginClick(this.state.user);
     this.toggleModal();
   }
 
@@ -49,6 +41,7 @@ class Login extends React.Component {
   }
 
   render() {
+    const { errorMessage } = this.props;
     return (
       <div>
         <Button onClick={this.toggleModal}>
@@ -69,7 +62,8 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  onLoginClick: PropTypes.func.isRequired
+  onLoginClick: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string
 };
 
 export default Login;

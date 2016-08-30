@@ -77,16 +77,19 @@ class ClypApi {
       })
     };
 
+// TODO: fix issue with resolve.. i want to reject
+// if user.error, but even when i reject it is getting
+// accepted in the Promise.then clypAction
     return new Promise((resolve, reject) => {
       fetch("/api/clyp/login", settings)
         .then((response) => {
           return response.json();
         })
-        .then((json) => {
-          debugger;
+        .then((user) => {
+          resolve(Object.assign({}, user));
         })
-        .catch((error) => {
-          throw(error);
+        .catch((err) => {
+          throw(err);
         });
     });
   }

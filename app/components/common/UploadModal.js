@@ -25,8 +25,8 @@ class UploadModal extends React.Component {
     this.setState({ isModalOpen: !this.state.isModalOpen });
   }
 
-  onDrop(e) {
-    this.props.onDrop(e);
+  onDrop(event) {
+    this.props.onDrop(event[0]);
     this.toggleModal();
   }
 

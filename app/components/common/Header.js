@@ -3,37 +3,62 @@
 import React, { PropTypes } from "react";
 import { Link } from "react-router";
 import Login from "./Login";
+import Logout from "./Logout";
 import UploadModal from "./UploadModal";
 import FontAwesome from "react-fontawesome";
 import toastr from "toastr";
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
-import { loginUser, logoutUser } from "../../actions/clypActions";
+import { loginUser, logoutUser, saveTrack } from "../../actions/clypActions";
 
 
 class Header extends React.Component {
   constructor(props, context) {
     super(props, context);
 
+    this.saveTrack = this.saveTrack.bind(this);
     this.onLoginClick = this.onLoginClick.bind(this);
+    this.onLogoutClick = this.onLogoutClick.bind(this);
   }
 
-  onLoginClick(dispatch, creds) {
-    dispatch(loginUser(creds));
+  saveTrack(track) {
+    this.props.dispatch(saveTrack(track))
+      .then(() => {
+        toastr.success("File uploaded successfully!");
+      })
+      .catch((err) => {
+        toastr.error(err);
+      });
+  }
+
+  onLoginClick(creds) {
+    this.props.dispatch(loginUser(creds))
+      .then(() => {
+        if (this.props.errorMessage) {
+          toastr.error(this.props.errorMessage);
+        }
+      })
+      .catch((err) => {
+        toastr.error(err);
+      });
+  }
+
+  onLogoutClick() {
+    this.props.dispatch(logoutUser());
   }
 
   render() {
-    const { dispatch, isAuthenticated, errorMessage } = this.props;
+    const { isAuthenticated } = this.props;
     return (
-      <div className="fixed-elements row">
+      <div className="container-fluid fixed-elements">
         <header id="clyp-header">
-          <div className="fixed-header">
+          <div className="fixed-header row">
             <Link to="https://clyp.it" target="_blank" className="clyp-logo-wrapper">
               <img src="/public/img/logo/clyp-logo-primary-98x44.svg" className="clyp-logo" alt="Clyp logo"/>
             </Link>
             <div className="nav-actions">
               <div className="nav-action">
                 <UploadModal
-                  onDrop={this.props.onDrop}
+                  onDrop={this.saveTrack}
                   bsStyle="primary"
                   bsSize="small"
                 />
@@ -57,7 +82,16 @@ class Header extends React.Component {
                 />
               </div>
               <div className="nav-action">
-                <Login onLoginClick={this.onLoginClick} />
+                {!isAuthenticated &&
+                  <Login
+                    onLoginClick={this.onLoginClick}
+                  />
+                }
+                {isAuthenticated &&
+                  <Logout
+                    onLogoutClick={this.onLogoutClick}
+                  />
+                }
               </div>
             </div>
           </div>

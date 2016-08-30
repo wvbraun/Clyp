@@ -51,7 +51,7 @@ function loginError(message) {
     isFetching: false,
     isAuthenticated: false,
     message: message
-  }
+  };
 }
 
 function requestLogout() {
@@ -59,7 +59,7 @@ function requestLogout() {
     type: types.LOGOUT_REQUEST,
     isFetching: true,
     isAuthenticated: true
-  }
+  };
 }
 
 function receiveLogout() {
@@ -67,7 +67,7 @@ function receiveLogout() {
     type: types.LOGOUT_SUCCESS,
     isFetching: false,
     isAuthenticated: false
-  }
+  };
 }
 
 function logoutError(message) {
@@ -79,17 +79,23 @@ function logoutError(message) {
   };
 }
 
+// TODO: this is a hacky workaround for user.error
 export function loginUser(creds) {
   return (dispatch) => {
     dispatch(requestLogin(creds));
 
     return ClypApi.login(creds)
       .then((user) => {
-        localStorage.setItem("access_token", user.access_token);
-        dispatch(recieveLogin(user));
+        if (user.err) {
+          const error = user.err.error;
+          dispatch(loginError(error));
+        } else {
+          localStorage.setItem("access_token", user.access_token);
+          dispatch(recieveLogin(user));
+        }
       })
       .catch((err) => {
-        dispatch(loginError(err));
+        throw(err);
       });
   };
 }
@@ -97,15 +103,9 @@ export function loginUser(creds) {
 export function logoutUser() {
   return (dispatch) => {
     dispatch(requestLogout());
-    return ClypApi.logout()
-      .then(() => {
-        localStorage.removeItem("access_token");
-        dispatch(receiveLogout());
-      })
-      .catch((err) => {
-        dispatch(logoutError(err));
-      });
-  }
+    localStorage.removeItem("access_token");
+    dispatch(receiveLogout());
+  };
 }
 
 export function loadTracks() {
