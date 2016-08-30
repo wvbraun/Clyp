@@ -135,10 +135,11 @@ router.post('/login', (req, res, next) => {
     return new Promise((resolve, reject) => {
       fetch('https://api.clyp.it/oauth2/token', settings)
         .then((response) => {
-          if (response.ok) {
-            resolve(response);
+          if (!response.ok) {
+            return response.json();
+          } else {
+          resolve(response);
           }
-          return response.json();
         })
         .then((err) => {
           reject(err);
@@ -154,7 +155,9 @@ router.post('/login', (req, res, next) => {
     .then((response) => {
       return response.json();
     })
-    .then((savedUser) => {
+    .then((user) => {
+      return res.status(200).json(user);
+      /*
       user = {
         email: user.username,
         access_token: savedUser.access_token,
@@ -169,6 +172,7 @@ router.post('/login', (req, res, next) => {
         .catch((err) => {
           return errorHandler(res, { err: err}, 400);
         });
+      */
     })
     .catch((err) => {
       return errorHandler(res, { err: err }, 400 );

@@ -2,35 +2,12 @@
 
 import React, { PropTypes } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import toastr from "toastr";
 import ClypHero from "./ClypHero";
 import ClypHomeTabs from "./ClypHomeTabs";
-import * as clypActions from "../../actions/clypActions";
 
 class ClypPage extends React.Component {
   constructor(props, context) {
     super(props, context);
-
-    this.saveTrack = this.saveTrack.bind(this);
-    this.login = this.login.bind(this);
-  }
-
-  saveTrack(event) {
-    this.props.actions.saveTrack(event[0])
-      .then(() => {
-        toastr.success("File uploaded successfully!");
-      })
-      .catch((err) => {
-        toastr.error(err);
-      });
-  }
-
-  login(user) {
-    this.props.actions.loginUser(user)
-      .catch((error) => {
-        toastr.error(error);
-      });
   }
 
   render() {
@@ -45,8 +22,7 @@ class ClypPage extends React.Component {
 }
 
 ClypPage.propTypes = {
-  tracks: PropTypes.array.isRequired,
-  actions: PropTypes.object.isRequired
+  tracks: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
@@ -55,10 +31,4 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(clypActions, dispatch)
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ClypPage);
+export default connect(mapStateToProps)(ClypPage);

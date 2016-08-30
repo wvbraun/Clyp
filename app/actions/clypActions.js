@@ -1,5 +1,6 @@
 "use strict";
 
+import CryptoJS from "crypto-js";
 import ClypApi from "../api/clypApi";
 import types from "./actionTypes";
 
