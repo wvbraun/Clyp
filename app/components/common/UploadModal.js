@@ -1,20 +1,21 @@
 "use strict";
 
 import React, { PropTypes } from "react";
+import { Link } from "react-router";
 import { ModalContainer, ModalDialog } from "react-modal-dialog";
-import { ButtonToolbar, Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import Dropzone from "react-dropzone";
 
 
 const tabs = ["Upload"];
+const termsUrl = "https://clyp.it/terms";
 
-const terms = "By uploading you agree to Clyp's Terms";
 
 class UploadModal extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      isModalOpen: false
+      showModal: false
     };
 
     this.toggleModal = this.toggleModal.bind(this);
@@ -22,12 +23,14 @@ class UploadModal extends React.Component {
   }
 
   toggleModal() {
-    this.setState({ isModalOpen: !this.state.isModalOpen });
+    this.setState({ showModal : !this.state.showModal });
   }
 
   onDrop(event) {
-    this.props.onDrop(event[0]);
-    this.toggleModal();
+    this.props.onDrop(event[0])
+      .then(() => {
+        this.toggleModal();
+      });
   }
 
   render() {
@@ -37,33 +40,33 @@ class UploadModal extends React.Component {
           type="submit"
           bsStyle={this.props.bsStyle}
           bsSize={this.props.bsSize}
-          onClick={this.toggleModal}>Upload</Button>
-        {this.state.isModalOpen &&
-          <ModalContainer onClose={this.toggleModal}>
-            <ModalDialog onClose={this.toggleModal}>
-                <div className="upload-modal">
-                  <ul className="source-tabs">
-                    {tabs.map((tab, i) =>
-                      <li key={i} className="tab small-12 columns is-active">{tab}</li>
-                    )}
-                  </ul>
-                  <div className="default-tabs-content upload-tabs">
-                    <div className="upload-tab tab active">
-                      <Dropzone className="dropzone" multiple={false} onDrop={this.onDrop}>
-                        <div className="upload-zone">
-                          <div className="upload-icon"></div>
-                          <div className="upload-text">
-                            Drop in an audio file or click to upload
-                          </div>
-                        </div>
-                      </Dropzone>
-                      <div className="terms-clause">{terms}</div>
+          onClick={this.toggleModal}>
+          Upload
+        </Button>
+        <Modal show={this.state.showModal} onHide={this.toggleModal} dialogClassName="upload-modal-wrapper">
+          <div className="upload-modal">
+            <Modal.Body>
+              <ul className="source-tabs">
+                {tabs.map((tab, i) =>
+                  <li key={i} className="tab small-12 columns is-active">{tab}</li>
+                )}
+              </ul>
+              <div className="default-tabs-content upload-tabs">
+                <div className="upload-tab tab active">
+                  <Dropzone className="dropzone upload-zone" multiple={false} onDrop={this.onDrop}>
+                    <div className="upload-icon"></div>
+                    <div className="upload-text">
+                      Drop in an audio file or click to upload
                     </div>
-                  </div>
+                  </Dropzone>
                 </div>
-            </ModalDialog>
-          </ModalContainer>
-        }
+              </div>
+              <div className="terms-clause">
+                {"By uploading you agree to our"} <Link to={termsUrl} target="_blank">Terms</Link>
+              </div>
+            </Modal.Body>
+          </div>
+        </Modal>
       </div>
     );
   }

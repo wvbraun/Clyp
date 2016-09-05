@@ -10,7 +10,6 @@ import toastr from "toastr";
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import { loginUser, logoutUser, saveTrack } from "../../actions/clypActions";
 
-
 class Header extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -21,13 +20,16 @@ class Header extends React.Component {
   }
 
   saveTrack(track) {
-    this.props.dispatch(saveTrack(track))
-      .then(() => {
-        toastr.success("File uploaded successfully!");
-      })
-      .catch((err) => {
-        toastr.error(err);
-      });
+    return new Promise((resolve, reject) => {
+      this.props.dispatch(saveTrack(track))
+        .then(() => {
+          toastr.success("File uploaded successfully!");
+          resolve();
+        })
+        .catch((err) => {
+          toastr.error(err);
+        });
+    });
   }
 
   onLoginClick(creds) {
@@ -53,7 +55,7 @@ class Header extends React.Component {
         <header id="clyp-header">
           <div className="fixed-header row">
             <Link to="https://clyp.it" target="_blank" className="clyp-logo-wrapper">
-              <img src="/public/img/logo/clyp-logo-primary-98x44.svg" className="clyp-logo" alt="Clyp logo"/>
+              <img src="/public/images/logos/clyp-logo-primary-98x44.svg" className="clyp-logo" alt="Clyp logo"/>
             </Link>
             <div className="nav-actions">
               <div className="nav-action">
